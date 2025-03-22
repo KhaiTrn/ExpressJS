@@ -1,7 +1,7 @@
 import express from "express";
-import { DataTypes, Sequelize } from "sequelize";
-import initModels from "./src/models/init-models.js";
 import rootRouter from "./src/routes/root.router.js";
+import { responseError } from "./src/common/helpers/response.helper.js";
+import { handleError } from "./src/common/helpers/error.helper.js";
 
 const app = express();
 
@@ -9,6 +9,30 @@ const app = express();
 app.use(express.json());
 
 app.use(rootRouter);
+
+app.use(handleError);
+
+app.listen(3069, () => {
+  console.log(`Server Online At Port 3069`);
+});
+// phần này để xử lý lỗi trước khi sử dụng handleError
+// app.use(
+//    (req, res, next) => {
+//       console.log(`middleware 1`);
+//       const payload = `payload`;
+//       res.payload = payload;
+//       next(123);
+//    },
+//    (req, res, next) => {
+//       console.log(`middleware 2`);
+//       console.log(res.payload);
+//       next();
+//    },
+//    (req, res, next) => {
+//       console.log(`middleware 3`);
+//       next();
+//    },
+// );
 
 /**
  * Code first
@@ -26,16 +50,14 @@ app.use(rootRouter);
  * - npx sequelize-auto -h localhost -d demo_database -u root -x 123456 -p 3306  --dialect mysql -o src/models -a src/models/additional.json -l esm
  */
 
-app.listen(3069, () => {
-  console.log(`Server Online At Port 3069`);
-});
-
 // /**
 //  * Body
 //  * để nhận được dữ liệu từ body bắt buộc phải có
 //  *    - app.use(express.json())
 //  *    - hoặc sử dụng thư viện parser: https://www.npmjs.com/package/parser
 //  */
+// khai báo route để server cần làm gì
+
 // app.post(`/body`, (request, response, next) => {
 //     console.log(request.body);
 //     response.json(`Body Parameters`);

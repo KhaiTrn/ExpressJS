@@ -13,8 +13,7 @@ const carController = {
 
       res.status(resData.code).json(resData);
     } catch (error) {
-      const resData = responseError(error.message, error.code, error.stack);
-      res.status(resData.code).json(resData);
+      next(error);
     }
   },
 };

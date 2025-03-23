@@ -22,36 +22,39 @@ app.listen(3069, () => {
 // console.log({ env: process.env });
 
 /**
-  * PRISMA
-  *    - npm i prisma
-  *    - npm i @prisma/client
-  *
-  *    - npx prisma init: khởi tạo prisma
-  *       - tạo ra .env
-  *       - tạo ra prisma/schema.prisma
-  *
-  *    - npx prisma db pull
-  *    - npx prisma generate
-  *
-
+ * PRISMA
+ *    - npm i prisma
+ *    - npm i @prisma/client
+ *
+ *    - npx prisma init: khởi tạo prisma
+ *       - tạo ra .env
+ *       - tạo ra prisma/schema.prisma
+ *
+ *    - npx prisma db pull
+ *    - npx prisma generate
+ */
 // phần này để xử lý lỗi trước khi sử dụng handleError
-// app.use(
-//    (req, res, next) => {
-//       console.log(`middleware 1`);
-//       const payload = `payload`;
-//       res.payload = payload;
-//       next(123);
-//    },
-//    (req, res, next) => {
-//       console.log(`middleware 2`);
-//       console.log(res.payload);
-//       next();
-//    },
-//    (req, res, next) => {
-//       console.log(`middleware 3`);
-//       next();
-//    },
-// );
+app.use(
+  (req, res, next) => {
+    console.log(`middleware 1`);
+    const payload = `payload`;
+    res.payload = payload;
+    next();
+  },
+  (req, res, next) => {
+    console.log(`middleware 2`);
+    console.log(res.payload);
+    next();
+  },
+  (req, res, next) => {
+    console.log(`middleware 3`);
+    next();
+  },
+  (err, req, res, next) => {
+    const resData = responseError(err.message, err.code, err.stack);
+    res.status(resData.code).json(resData);
+  }
+);
 
 /**
  * Code first

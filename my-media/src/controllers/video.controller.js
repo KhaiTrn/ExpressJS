@@ -10,6 +10,7 @@ const videoController = {
         `Get List Videos Successfully`,
         200
       );
+      res.status(resData.code).json(resData);
     } catch (error) {
       next(error);
     }

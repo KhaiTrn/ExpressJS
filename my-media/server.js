@@ -2,12 +2,16 @@ import express from "express";
 import rootRouter from "./src/routes/root.router.js";
 import { responseError } from "./src/common/helpers/response.helper.js";
 import { handleError } from "./src/common/helpers/error.helper.js";
-
+import cors from "cors";
 const app = express();
 
 // middleware giúp phân giải dữ liệu từ json sang đối tượng javascript
 app.use(express.json());
-
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "google.com"],
+  })
+);
 app.use(rootRouter);
 
 app.use(handleError);
@@ -15,6 +19,21 @@ app.use(handleError);
 app.listen(3069, () => {
   console.log(`Server Online At Port 3069`);
 });
+// console.log({ env: process.env });
+
+/**
+  * PRISMA
+  *    - npm i prisma
+  *    - npm i @prisma/client
+  *
+  *    - npx prisma init: khởi tạo prisma
+  *       - tạo ra .env
+  *       - tạo ra prisma/schema.prisma
+  *
+  *    - npx prisma db pull
+  *    - npx prisma generate
+  *
+
 // phần này để xử lý lỗi trước khi sử dụng handleError
 // app.use(
 //    (req, res, next) => {

@@ -1,9 +1,8 @@
 import { Sequelize } from "sequelize";
 import initModels from "../../models/init-models.js";
+import { DATABASE_URL } from "../constant/app.constant.js";
 
-export const sequelize = new Sequelize(
-  "mysql://root:123456@localhost:3306/demo_database"
-);
+export const sequelize = new Sequelize(DATABASE_URL, { logging: false });
 const models = initModels(sequelize);
 
 // Kiểm tra kết nối với cở sở dữ liệu (db)

@@ -3,6 +3,7 @@ export const responseSuccess = (
   message = `Ok`,
   code = 200
 ) => {
+  if (typeof code !== `number`) code = 200;
   return {
     status: `success`,
     code: code,
@@ -17,6 +18,7 @@ export const responseError = (
   code = 500,
   stack = null
 ) => {
+  if (typeof code !== `number`) code = 500;
   return {
     status: `error`,
     code: code,

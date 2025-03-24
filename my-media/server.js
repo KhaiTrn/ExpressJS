@@ -34,27 +34,27 @@ app.listen(3069, () => {
  *    - npx prisma generate
  */
 // phần này để xử lý lỗi trước khi sử dụng handleError
-app.use(
-  (req, res, next) => {
-    console.log(`middleware 1`);
-    const payload = `payload`;
-    res.payload = payload;
-    next();
-  },
-  (req, res, next) => {
-    console.log(`middleware 2`);
-    console.log(res.payload);
-    next();
-  },
-  (req, res, next) => {
-    console.log(`middleware 3`);
-    next();
-  },
-  (err, req, res, next) => {
-    const resData = responseError(err.message, err.code, err.stack);
-    res.status(resData.code).json(resData);
-  }
-);
+// app.use(
+//   (req, res, next) => {
+//     console.log(`middleware 1`);
+//     const payload = `payload`;
+//     res.payload = payload;
+//     next();
+//   },
+//   (req, res, next) => {
+//     console.log(`middleware 2`);
+//     console.log(res.payload);
+//     next();
+//   },
+//   (req, res, next) => {
+//     console.log(`middleware 3`);
+//     next();
+//   },
+//   (err, req, res, next) => {
+//     const resData = responseError(err.message, err.code, err.stack);
+//     res.status(resData.code).json(resData);
+//   }
+// );
 
 /**
  * Code first

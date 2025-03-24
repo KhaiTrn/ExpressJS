@@ -2,6 +2,10 @@ import prisma from "../common/prisma/init.prisma.js";
 import { BadRequestException } from "../common/helpers/error.helper.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import {
+  ACCESS_TOKEN_EXPIRED,
+  ACCESS_TOKEN_SECRET,
+} from "../common/constant/app.constant.js";
 const authService = {
   //api
   register: async (req) => {
@@ -62,8 +66,8 @@ const authService = {
   createTokens: (userId) => {
     if (!userId) throw new BadRequestException(`Khoong có userId để tạo token`);
     // token chỉ tồn tại được trong 10s
-    const accessToken = jwt.sign({ userId: userId }, "ACCESS_TOKEN_SECRET", {
-      expiresIn: `10s`,
+    const accessToken = jwt.sign({ userId: userId }, ACCESS_TOKEN_SECRET, {
+      expiresIn: ACCESS_TOKEN_EXPIRED,
     });
     return accessToken;
   },

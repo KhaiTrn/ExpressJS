@@ -8,7 +8,7 @@ import jwt from "jsonwebtoken";
 export const handleError = (err, req, res, next) => {
   console.log({ err });
   if (err instanceof jwt.TokenExpiredError) {
-    err.code = 403;
+    err.code = 401;
   }
   const resData = responseError(err.message, err.code, err.stack);
   res.status(resData.code).json(resData);
@@ -24,5 +24,12 @@ export class ForbiddenException extends Error {
   constructor(message = `ForbiddenException`) {
     super(message);
     this.code = 403;
+  }
+}
+
+export class UnauthorizationException extends Error {
+  constructor(message = `UnauthorizationException`) {
+    super(message);
+    this.code = 401;
   }
 }

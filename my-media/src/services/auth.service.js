@@ -5,6 +5,8 @@ import jwt from "jsonwebtoken";
 import {
   ACCESS_TOKEN_EXPIRED,
   ACCESS_TOKEN_SECRET,
+  REFRESH_TOKEN_EXPIRED,
+  REFRESH_TOKEN_SECRET,
 } from "../common/constant/app.constant.js";
 const authService = {
   //api
@@ -51,17 +53,55 @@ const authService = {
     if (!userExists) {
       throw new BadRequestException(`Tài khoản chưa tồn tại, Vui lòng đăng ký`);
     }
+    if (!userExists.pass_word) {
+      if (userExists.face_app_id) {
+        throw new BadRequestException(
+          `Vui lòng đăng nhập bằng facebook, để tạo mật khẩu mới`
+        );
+      }
+      if (userExists.goole_id) {
+        throw new BadRequestException(
+          `Vui lòng đăng nhập bằng google, để tạo mật khẩu mới`
+        );
+      }
+      throw new BadRequestException(
+        `Không hợp lệ, vui lòng liện hệ chăm sóc khách hàng`
+      );
+    }
 
     // so sánh password
     const isPassword = bcrypt.compareSync(pass_word, userExists.pass_word);
     if (!isPassword) {
       throw new BadRequestException(`Mật khẩu không chính xác`);
     }
-    const accessToken = authService.createTokens(userExists.user_id);
-    return {
-      accessToken: accessToken,
-      refreshToken: `456`,
-    };
+    const tokens = authService.createTokens(userExists.user_id);
+    return tokens;
+  },
+  facebookLogin: async (req) => {
+    const { name, email, picture, id } = req.body;
+    const avatar = picture.data.url;
+
+    console.log({ name, email, avatar, id });
+
+    let userExists = await prisma.users.findFirst({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!userExists) {
+      userExists = await prisma.users.create({
+        data: {
+          email: email,
+          full_name: name,
+          face_app_id: id,
+        },
+      });
+    }
+
+    const tokens = authService.createTokens(userExists.user_id);
+
+    return tokens;
   },
   createTokens: (userId) => {
     if (!userId) throw new BadRequestException(`Khoong có userId để tạo token`);
@@ -69,7 +109,14 @@ const authService = {
     const accessToken = jwt.sign({ userId: userId }, ACCESS_TOKEN_SECRET, {
       expiresIn: ACCESS_TOKEN_EXPIRED,
     });
-    return accessToken;
+    const refreshToken = jwt.sign({ userId: userId }, REFRESH_TOKEN_SECRET, {
+      expiresIn: REFRESH_TOKEN_EXPIRED,
+    });
+
+    return {
+      accessToken: accessToken,
+      refreshToken: refreshToken,
+    };
   },
 };
 export default authService;

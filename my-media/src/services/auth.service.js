@@ -103,6 +103,53 @@ const authService = {
 
     return tokens;
   },
+  refreshToken: async (req) => {
+    const refreshToken = req.headers.authorization?.split(" ")[1];
+    if (!refreshToken) {
+      throw new UnauthorizationException(
+        `Vui lòng cung cấp token để tiếp tục sử dụng`
+      );
+    }
+
+    const accessToken = req.headers[`x-access-token`];
+    if (!accessToken) {
+      throw new UnauthorizationException(
+        `Vui lòng cung cấp token để tiếp tục sử dụng`
+      );
+    }
+
+    console.log({
+      refreshToken,
+      accessToken,
+    });
+
+    const decodeRefeshToken = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+
+    const decodeAccessToken = jwt.verify(accessToken, ACCESS_TOKEN_SECRET, {
+      ignoreExpiration: true,
+    });
+
+    console.log({
+      decodeRefeshToken,
+      decodeAccessToken,
+    });
+
+    if (decodeRefeshToken.userId !== decodeAccessToken.userId) {
+      throw new UnauthorizationException(`Cặp Token không hợp lệ`);
+    }
+
+    const userExists = await prisma.users.findUnique({
+      where: {
+        user_id: decodeRefeshToken.userId,
+      },
+    });
+
+    if (!userExists) throw new UnauthorizationException(`User không tồn tại`);
+
+    const tokens = authService.createTokens(userExists.user_id);
+
+    return tokens;
+  },
   createTokens: (userId) => {
     if (!userId) throw new BadRequestException(`Khoong có userId để tạo token`);
     // token chỉ tồn tại được trong 10s

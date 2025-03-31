@@ -7,6 +7,8 @@ export const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 export const REFRESH_TOKEN_EXPIRED = process.env.REFRESH_TOKEN_EXPIRED;
 export const EMAIL_USER = process.env.Email_User;
 export const EMAIL_PASSWORD = process.env.Email_Password;
+export const REGEX_EMAIL =
+  /(?=^[a-z0-9.]+@[a-z0-9.-]+\.[a-zA-Z]{2,6}$)(?=^.{1,40}$)/i;
 console.log({
   DATABASE_URL,
   ACCESS_TOKEN_SECRET,

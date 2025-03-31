@@ -14,13 +14,13 @@ const authService = {
   register: async (req) => {
     // Bước 1: nhận dữ liệu: full_name, email, pass_word
     const { full_name, email, pass_word } = req.body;
-    console.log({ full_name, email, pass_word });
+    // console.log({ full_name, email, pass_word });
     const userExists = await prisma.users.findFirst({
       where: {
         email: email,
       },
     });
-    console.log({ userExists });
+    // console.log({ userExists });
     if (userExists) {
       throw new BadRequestException(`Tài khoản đã tồn tại, Vui lòng đăng nhập`);
     }
@@ -44,6 +44,8 @@ const authService = {
     sendMail(`khai.tran.srp@gmail.com`).catch((err) => {
       console.log(`Lỗi gửi email: `, err);
     });
+    // userNew.pass_word = `1234`
+    // userNew.email = 1234
 
     // Bước 4: trả kết quả thành công
     return userNew;

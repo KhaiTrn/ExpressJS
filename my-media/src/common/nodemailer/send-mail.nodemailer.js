@@ -1,5 +1,5 @@
 import nodemailer from "nodemailer";
-import { EMAIL_PASSWORD, EMAIL_USER } from "../constant/app.constant";
+import { EMAIL_PASSWORD, EMAIL_USER } from "../constant/app.constant.js";
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",

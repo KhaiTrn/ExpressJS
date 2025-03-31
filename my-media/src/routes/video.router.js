@@ -10,5 +10,6 @@ videoRouter.get(
   checkPermission,
   videoController.videoList
 );
+videoRouter.get("/video-detail/:id", protect, videoController.videoDetail);
 
 export default videoRouter;

@@ -1,5 +1,6 @@
 import prisma from "../common/prisma/init.prisma.js";
-
+import { BadRequestException } from "../common/helpers/error.helper.js";
+("../common/helpers/response.helper.js");
 const videoService = {
   videoList: async (req) => {
     let { page, pageSize, type_id, search } = req.query;
@@ -36,6 +37,18 @@ const videoService = {
       totalItem, // tổng cộng có bao nhiêu video
       items: videos || [],
     };
+  },
+  videoDetail: async (req) => {
+    const { id } = req.params;
+    if (!id) throw new BadRequestException(`Vui lòng cung cấp id của video`);
+
+    const video = await prisma.videos.findUnique({
+      where: {
+        video_id: +id,
+      },
+    });
+
+    return video;
   },
 };
 export default videoService;

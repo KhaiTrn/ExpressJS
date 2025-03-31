@@ -5,10 +5,14 @@ export const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 export const ACCESS_TOKEN_EXPIRED = process.env.ACCESS_TOKEN_EXPIRED;
 export const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 export const REFRESH_TOKEN_EXPIRED = process.env.REFRESH_TOKEN_EXPIRED;
+export const EMAIL_USER = process.env.Email_User;
+export const EMAIL_PASSWORD = process.env.Email_Password;
 console.log({
   DATABASE_URL,
   ACCESS_TOKEN_SECRET,
   ACCESS_TOKEN_EXPIRED,
   REFRESH_TOKEN_SECRET,
   REFRESH_TOKEN_EXPIRED,
+  EMAIL_USER,
+  EMAIL_PASSWORD,
 });

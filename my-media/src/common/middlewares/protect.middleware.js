@@ -19,6 +19,9 @@ export const protect = async (req, res, next) => {
       where: {
         user_id: decode.userId,
       },
+      include: {
+        roles: true,
+      },
     });
     // Lưu thông tin user vào req.user để các middleware hoặc controller sau có thể dùng.
     req.user = user;

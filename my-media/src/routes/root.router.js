@@ -6,6 +6,7 @@ import roleRouter from "./role.router.js";
 import permissionRouter from "./permission.router.js";
 import swaggerDocument from "../common/swagger/init.swagger.js";
 import swaggerUi from "swagger-ui-express";
+import chatRouter from "./chat.router.js";
 const rootRouter = express.Router();
 
 rootRouter.use("/api-docs", swaggerUi.serve);
@@ -25,5 +26,5 @@ rootRouter.use(`/car`, carRouter);
 rootRouter.use("/auth", authRouter);
 rootRouter.use(`/role`, roleRouter);
 rootRouter.use(`/permission`, permissionRouter);
-
+rootRouter.use(`/chat`, chatRouter);
 export default rootRouter;

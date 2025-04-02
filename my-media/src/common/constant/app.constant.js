@@ -9,12 +9,12 @@ export const EMAIL_USER = process.env.Email_User;
 export const EMAIL_PASSWORD = process.env.Email_Password;
 export const REGEX_EMAIL =
   /(?=^[a-z0-9.]+@[a-z0-9.-]+\.[a-zA-Z]{2,6}$)(?=^.{1,40}$)/i;
-console.log({
-  DATABASE_URL,
-  ACCESS_TOKEN_SECRET,
-  ACCESS_TOKEN_EXPIRED,
-  REFRESH_TOKEN_SECRET,
-  REFRESH_TOKEN_EXPIRED,
-  EMAIL_USER,
-  EMAIL_PASSWORD,
-});
+// console.log({
+//   DATABASE_URL,
+//   ACCESS_TOKEN_SECRET,
+//   ACCESS_TOKEN_EXPIRED,
+//   REFRESH_TOKEN_SECRET,
+//   REFRESH_TOKEN_EXPIRED,
+//   EMAIL_USER,
+//   EMAIL_PASSWORD,
+// });

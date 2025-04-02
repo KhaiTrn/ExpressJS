@@ -160,6 +160,10 @@ const authService = {
 
     return tokens;
   },
+  getInfo: async (req) => {
+    delete req.user.pass_word;
+    return req.user;
+  },
   createTokens: (userId) => {
     if (!userId) throw new BadRequestException(`Khoong có userId để tạo token`);
     // token chỉ tồn tại được trong 10s

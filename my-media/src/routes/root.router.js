@@ -7,19 +7,20 @@ import permissionRouter from "./permission.router.js";
 import swaggerDocument from "../common/swagger/init.swagger.js";
 import swaggerUi from "swagger-ui-express";
 import chatRouter from "./chat.router.js";
+import userRouter from "./user.router.js";
 const rootRouter = express.Router();
 
-rootRouter.use("/api-docs", swaggerUi.serve);
+rootRouter.use("/", swaggerUi.serve);
 rootRouter.get(
-  "/api-docs",
+  "/",
   swaggerUi.setup(swaggerDocument, {
     swaggerOptions: { persistAuthorization: true },
   })
 ); // persistAuthorization : lưu giữ token sau mỗi lần tải lại trang
 
-rootRouter.get(`/`, (request, response, next) => {
-  response.json(`ok`);
-});
+// rootRouter.get(`/`, (request, response, next) => {
+//   response.json(`ok`);
+// });
 
 rootRouter.use("/video", videoRouter);
 rootRouter.use(`/car`, carRouter);
@@ -27,4 +28,5 @@ rootRouter.use("/auth", authRouter);
 rootRouter.use(`/role`, roleRouter);
 rootRouter.use(`/permission`, permissionRouter);
 rootRouter.use(`/chat`, chatRouter);
+rootRouter.use(`/user`, userRouter);
 export default rootRouter;

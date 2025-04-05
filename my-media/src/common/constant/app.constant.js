@@ -9,6 +9,9 @@ export const EMAIL_USER = process.env.Email_User;
 export const EMAIL_PASSWORD = process.env.Email_Password;
 export const REGEX_EMAIL =
   /(?=^[a-z0-9.]+@[a-z0-9.-]+\.[a-zA-Z]{2,6}$)(?=^.{1,40}$)/i;
+export const CLOUD_NAME = process.env.CLOUD_NAME;
+export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
+export const CLOUDINARY_SECRET_KEY = process.env.CLOUDINARY_SECRET_KEY;
 // console.log({
 //   DATABASE_URL,
 //   ACCESS_TOKEN_SECRET,

@@ -58,6 +58,7 @@ const authService = {
       where: {
         email: email,
       },
+      include: { roles: true },
     });
 
     if (!userExists) {
@@ -85,7 +86,9 @@ const authService = {
       throw new BadRequestException(`Mật khẩu không chính xác`);
     }
     const tokens = authService.createTokens(userExists.user_id);
-    return tokens;
+    const user = { ...userExists };
+    user.pass_word = "";
+    return { tokens, user };
   },
   facebookLogin: async (req) => {
     const { name, email, picture, id } = req.body;

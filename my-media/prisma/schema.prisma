@@ -28,7 +28,7 @@ model chats {
   user_id_sender                       Int
   user_id_recipient                    Int
   created_at                           DateTime? @default(now()) @db.Timestamp(0)
-  updated_at                           DateTime? @default(now()) @db.Timestamp(0)
+  update_at                            DateTime? @default(now()) @db.DateTime(0)
   users_chats_user_id_senderTousers    users     @relation("chats_user_id_senderTousers", fields: [user_id_sender], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "chats_ibfk_1")
   users_chats_user_id_recipientTousers users     @relation("chats_user_id_recipientTousers", fields: [user_id_recipient], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "chats_ibfk_2")
 

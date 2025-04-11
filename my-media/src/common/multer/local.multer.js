@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
     // fileExtension (đuôi mở rộng của file)
     const fileExtension = path.extname(file.originalname); // path.extname(): lấy đuôi mở rộng của file (vd: .jpg, .png, .pdf, ...)
 
-    // const fileNameString = `local-` + file.fieldname + "-" + uniqueSuffix + fileExtension
+    // file.fieldname: tên trường trong form-data (vd: avatar, image, ...) lấy từ name của input trong form-data
     //convert to template string
     const fileNameString = `local-${file.fieldname}-${uniqueSuffix}${fileExtension}`;
 

@@ -8,10 +8,12 @@ import {
   Delete,
   Query,
   Headers,
+  Req,
 } from '@nestjs/common';
 import { VideoService } from './video.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('video')
 export class VideoController {
@@ -23,14 +25,16 @@ export class VideoController {
   }
 
   @Get(`video-list`)
+  @ApiBearerAuth()
   async getListVideo(
     @Query() query: any,
     @Query('page') page: string,
     @Query('pageSize') pageSize: string,
+    @Req() req: Request,
   ) {
     // console.log({ query });
     // console.log({ page, pageSize });
-    const result = await this.videoService.getListVideo(query);
+    const result = await this.videoService.getListVideo(req, query);
     return result;
   }
 

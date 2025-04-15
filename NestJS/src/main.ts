@@ -1,14 +1,48 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { TokenCheck } from './modules/auth/token/token-check';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const reflector = app.get(Reflector); // Lấy reflector từ Dependency Injection container
+  // Reflector dùng để đọc metadata từ route decorators
   //add middleware Here
   app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalGuards(new TokenCheck(reflector)); // Bảo vệ api bằng Passport JWT
+  // CORS
+  app.enableCors({ origin: ['localhost:5173', 'google.com'] });
+
+  // https://docs.nestjs.com/openapi/introduction
+  // npm install --save @nestjs/swagger
+  const config = new DocumentBuilder()
+    .setTitle('Cyber Media')
+    .setDescription('The cats API description')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+  const documentFactory = () => SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, documentFactory, {
+    swaggerOptions: {
+      persistAuthorization: true,
+    },
+  });
   await app.listen(process.env.PORT ?? 3000);
 }
+
 bootstrap();
+
+/**
+ * Bảo vệ api bằng Passport JWT
+ * doc: https://docs.nestjs.com/recipes/passport#implementing-passport-jwt
+ *
+ * npm i passport-jwt
+ * npm i --save-dev @types/passport-jwt
+ * npm i @nestjs/passport
+ *
+ * CheckTokenStrategy => provider của AppModule
+ */
 
 /**
  * Một module gồm:
